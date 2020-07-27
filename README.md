@@ -2,7 +2,7 @@
 
 ![teaser](teaser.png)
 
-[Project Page] [Paper] [[Code](https://github.com/luost26/DMRDenoise)]
+[[Project Page](https://luost.me/DMRDenoise/)] [Paper] [[Code](https://github.com/luost26/DMRDenoise)]
 
 This is an implementation of the DMRDenoise model based on our paper "Differentiable Manifold Reconstruction for Point Cloud Denoising", which will appear in ACM MM 2020.
 
