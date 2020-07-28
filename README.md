@@ -2,7 +2,7 @@
 
 ![teaser](teaser.png)
 
-[Project Page] [Paper] [[Code](https://github.com/luost26/DMRDenoise)]
+[[Project Page](https://luost.me/DMRDenoise/)] [[Paper](https://arxiv.org/abs/2007.13551)] [[Code](https://github.com/luost26/DMRDenoise)]
 
 This is an implementation of the DMRDenoise model based on our paper "Differentiable Manifold Reconstruction for Point Cloud Denoising", which will appear in ACM MM 2020.
 
@@ -93,5 +93,20 @@ We provide TensorBoard logs of our pretrained models for reference. To view the 
 
 ```
 tensorboard --logdir ./pretrained
+```
+
+
+
+## Citation
+
+If you find our work useful, please consider citing:
+
+```
+@article{luo2020differentiable,
+    title={Differentiable Manifold Reconstruction for Point Cloud Denoising},
+    author={Shitong Luo and Wei Hu},
+    journal={arXiv preprint arXiv:2007.13551},
+    year={2020}
+}
 ```
 
