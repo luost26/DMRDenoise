@@ -136,6 +136,7 @@ def run_test(input_fn, output_fn, patch_size, ckpt, device, random_state=0, expa
 
 
 def auto_denoise(args):
+    print('[INFO] Loading: %s' % args.input)
     pc = np.loadtxt(args.input).astype(np.float32)
     if not os.path.exists(os.path.dirname(args.output)):
         os.makedirs(os.path.dirname(args.output))
@@ -177,6 +178,7 @@ def auto_denoise(args):
         assert False, "Our pretrained model does not support point clouds with less than 10K points."
 
     np.savetxt(args.output, denoised)
+    print('[INFO] Saving to: %s' % args.output)
     if args.downsample_output is not None:
         np.savetxt(args.downsample_output, downsampled)
 
