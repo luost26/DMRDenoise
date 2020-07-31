@@ -99,14 +99,15 @@ tensorboard --logdir ./pretrained
 
 ## Citation
 
-If you find our work useful, please consider citing:
+Please cite our paper if you use this code in your own work:
 
 ```
-@article{luo2020differentiable,
-    title={Differentiable Manifold Reconstruction for Point Cloud Denoising},
-    author={Shitong Luo and Wei Hu},
-    journal={arXiv preprint arXiv:2007.13551},
-    year={2020}
+@inproceedings{luo2020differentiable,
+  title={Differentiable Manifold Reconstruction for Point Cloud Denoising},
+  author={Luo, Shitong and Hu, Wei},
+  booktitle={Proceedings of the 28th ACM International Conference on Multimedia},
+  year={2020},
+  month={October}
 }
 ```
 
