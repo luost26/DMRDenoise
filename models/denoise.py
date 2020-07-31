@@ -48,6 +48,7 @@ class PointCloudDenoising(pl.LightningModule):
             use_random_pool=random_pool
         )
 
+        # For validation
         self.cd_loss = ChamferLoss()
         self.emd_loss = EMDLoss(eps=0.005, iters=50)
 
