@@ -1,0 +1,348 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="3D point clouds are often perturbed by noise due to the inherent limitation of acquisition equipments, which obstructs downstream tasks such as surface reconstruction, rendering and so on. Previous works mostly infer the displacement of noisy points from the underlying surface, which however are not designated to recover the surface explicitly and may lead to sub-optimal denoising results. To this end, we propose to learn the underlying manifold of a noisy point cloud from differentiably subsampled points with trivial noise perturbation and their embedded neighborhood feature, aiming to capture intrinsic structures in point clouds. Specifically, we present an autoencoder-like neural network. The encoder learns both local and non-local feature representations of each point, and then samples points with low noise via an adaptive differentiable pooling operation. Afterwards, the decoder infers the underlying manifold by transforming each sampled point along with the embedded feature of its neighborhood to a local surface centered around the point. By resampling on the reconstructed manifold, we obtain a denoised point cloud. Further, we design an unsupervised training loss, so that our network can be trained in either an unsupervised or supervised fashion. Experiments show that our method significantly outperforms state-of-the-art denoising methods under both synthetic noise and real world noise.">
+    <meta name="author" content="Shitong Luo, Wei Hu">
+    <title>Differentiable Manifold Reconstruction for Point Cloud Denoising</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    
+</head>
+<body>
+    <main role="main" class="container">
+        <!-- Title and authors -->
+        <div>
+            <h1 class="center">Differentiable Manifold Reconstruction <br/> for Point Cloud Denoising</h1>
+            <p class="center">
+                <a href="https://luost.me" target="_blank">Shitong Luo</a>, 
+                <a href="https://www.wict.pku.edu.cn/huwei/" target="_blank">Wei Hu</a> <br/>
+                Wangxuan Institute of Computer Technology <br/>
+                Peking University
+            </p>
+            <p class="center">
+                <a class="btn btn-outline-primary btn-sm" href="https://arxiv.org/abs/2007.13551" role="button">Paper</a>
+                <a class="btn btn-outline-primary btn-sm" href="https://github.com/luost26/DMRDenoise" role="button">Code</a>
+                <a class="btn btn-outline-primary btn-sm" href="https://drive.google.com/drive/folders/1Qw_bYqsUcekeh165kgRODwIuYpsYIzM1?usp=sharing" role="button">Dataset</a>
+                
+            </p>
+        </div>
+        
+        <hr/>
+        
+        <!-- Teaser and abstract -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4">
+                    <figure class="figure">
+                        <img src="./media/teaser.png" class="figure-img img-fluid rounded">
+                        <figcaption class="figure-caption">
+                            An overview of our method. The denoising network takes noisy point clouds as input, and then samples a subset of points with low noise via a differentiable pooling layer. Afterwards, manifolds are reconstructed based on the sampled subset of points. Finally, by sampling on the reconstructed manifold, we obtain denoised point clouds.
+                        </figcaption>
+                    </figure>
+                </div>
+                <div class="col-sm-8">
+                    <h2>Abstract</h2>
+                    <p>
+                        3D point clouds are often perturbed by noise due to the inherent limitation of acquisition equipments, which obstructs downstream tasks such as surface reconstruction, rendering and so on.  
+                        Previous works mostly infer the displacement of noisy points from the underlying surface, which however are not designated to recover the surface explicitly and may lead to sub-optimal denoising results.  
+                        To this end, we propose to learn the underlying manifold of a noisy point cloud from differentiably subsampled points with trivial noise perturbation and their embedded neighborhood feature, aiming to capture intrinsic structures in point clouds.
+                        Specifically, we present an autoencoder-like neural network. 
+                        The encoder learns both local and non-local feature representations of each point, and then samples points with low noise via an adaptive differentiable pooling operation. 
+                        Afterwards, the decoder infers the underlying manifold by transforming each sampled point along with the embedded feature of its neighborhood to a local surface centered around the point. 
+                        By resampling on the reconstructed manifold, we obtain a denoised point cloud. 
+                        Further, we design an unsupervised training loss, so that our network can be trained in either an unsupervised or supervised fashion. 
+                        Experiments show that our method significantly outperforms state-of-the-art denoising methods under both synthetic noise and real world noise.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <hr />
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <h2 class="center">Method</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <figure class="figure">
+                        <img src="./media/network.png" class="figure-img img-fluid rounded">
+                        <figcaption class="figure-caption">
+                            Illustration of the proposed point cloud denoising framework.
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <figure class="figure">
+                        <img src="./media/downsample.png" class="figure-img img-fluid rounded">
+                        <figcaption class="figure-caption">
+                            Visualization of the intermediate subsampled point set. Our differentiable pooling operator is effective in sampling points with lower noise.
+                        </figcaption>
+                    </figure>
+                </div>
+                <div class="col">
+                    <figure class="figure">
+                        <img src="./media/patch.png" class="figure-img img-fluid rounded">
+                        <figcaption class="figure-caption">
+                            Illustration of the patch manifold reconstruction and resampling. Note that $\tilde{P}$ is resampled from the manifolds, so there is no strict point-to-point correspondence between $\hat{\S}$ and $\tilde{P}$.
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        
+        <hr />
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <h2 class="center">Results</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <figure class="figure">
+                        <img src="./media/vis.png" class="figure-img img-fluid rounded">
+                        <figcaption class="figure-caption">
+                            Comparison of denoising algorithms. Each resolution and noise level is evaluated by 60 point clouds of different shapes from our collected test dataset, which is a subset of ModelNet-40.                        </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-hover table-bordered">
+                        <caption>Comparison of denoising algorithms. Each resolution and noise level is evaluated by 60 point clouds of different shapes from our collected test dataset, which is a subset of ModelNet-40.</caption>
+                        <thead>
+                            <tr class="center">
+                                <th># Points</th>
+                                <th colspan="8">20K</th>
+                                <th colspan="8">50K</th>
+                            </tr>
+                            <tr class="center">
+                                <th>Noise</th>
+                                <th colspan="2">1%</th>
+                                <th colspan="2">2%</th>
+                                <th colspan="2">2.5%</th>
+                                <th colspan="2">3%</th>
+                                <th colspan="2">1%</th>
+                                <th colspan="2">2%</th>
+                                <th colspan="2">2.5%</th>
+                                <th colspan="2">3%</th>
+                            </tr>
+                            <tr class="center">
+                                <th>10<sup>-2</sup></th>
+                                <th>CD</th>
+                                <th>P2S</th>
+                                <th>CD</th>
+                                <th>P2S</th>
+                                <th>CD</th>
+                                <th>P2S</th>
+                                <th>CD</th>
+                                <th>P2S</th>
+                                <th>CD</th>
+                                <th>P2S</th>
+                                <th>CD</th>
+                                <th>P2S</th>
+                                <th>CD</th>
+                                <th>P2S</th>
+                                <th>CD</th>
+                                <th>P2S</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Bilateral</td>
+                                <td>1.54</td>
+                                <td>1.27</td>
+                                <td>1.84</td>
+                                <td>1.82</td>
+                                <td>2.11</td>
+                                <td>2.26</td>
+                                <td>2.43</td>
+                                <td>2.78</td>
+                                <td>1.04</td>
+                                <td>0.94</td>
+                                <td>1.61</td>
+                                <td>1.90</td>
+                                <td>1.97</td>
+                                <td>2.49</td>
+                                <td>2.37</td>
+                                <td>3.17</td>
+                            </tr>
+                            <tr>
+                                <td>Jet</td>
+                                <td>1.25</td>
+                                <td>0.96</td>
+                                <td>2.11</td>
+                                <td>2.32</td>
+                                <td>2.55</td>
+                                <td>3.04</td>
+                                <td>2.99</td>
+                                <td>3.78</td>
+                                <td>1.11</td>
+                                <td>1.10</td>
+                                <td>2.01</td>
+                                <td>2.61</td>
+                                <td>2.44</td>
+                                <td>3.35</td>
+                                <td>2.86</td>
+                                <td>4.09</td>
+                            </tr>
+                            <tr>
+                                <td>MRPCA</td>
+                                <td><strong>1.13</strong></td>
+                                <td><strong>0.72</strong></td>
+                                <td>2.12</td>
+                                <td>2.18</td>
+                                <td>2.66</td>
+                                <td>3.02</td>
+                                <td>3.16</td>
+                                <td>3.84</td>
+                                <td>1.03</td>
+                                <td>0.91</td>
+                                <td>2.12</td>
+                                <td>2.63</td>
+                                <td>2.58</td>
+                                <td>3.42</td>
+                                <td>3.02</td>
+                                <td>4.18</td>
+                            </tr>
+                            <tr>
+                                <td>GLR</td>
+                                <td>1.16</td>
+                                <td>0.88</td>
+                                <td>1.78</td>
+                                <td>1.87</td>
+                                <td>2.20</td>
+                                <td>2.55</td>
+                                <td>2.65</td>
+                                <td>3.30</td>
+                                <td>0.94</td>
+                                <td>0.88</td>
+                                <td>1.79</td>
+                                <td>2.28</td>
+                                <td>2.24</td>
+                                <td>3.05</td>
+                                <td>2.68</td>
+                                <td>3.83</td>
+                            </tr>
+                            <tr>
+                                <td>TotalDn</td>
+                                <td>1.51</td>
+                                <td>1.23</td>
+                                <td>2.57</td>
+                                <td>2.97</td>
+                                <td>3.02</td>
+                                <td>3.75</td>
+                                <td>3.46</td>
+                                <td>4.51</td>
+                                <td>1.13</td>
+                                <td>1.03</td>
+                                <td>2.20</td>
+                                <td>2.80</td>
+                                <td>2.66</td>
+                                <td>3.60</td>
+                                <td>3.09</td>
+                                <td>4.37</td>
+                            </tr>
+                            <tr>
+                                <td>PCNet</td>
+                                <td>1.45</td>
+                                <td>1.20</td>
+                                <td>2.25</td>
+                                <td>2.41</td>
+                                <td>2.79</td>
+                                <td>3.23</td>
+                                <td>3.37</td>
+                                <td>4.12</td>
+                                <td>0.95</td>
+                                <td><strong>0.74</strong></td>
+                                <td>1.41</td>
+                                <td>1.37</td>
+                                <td>2.03</td>
+                                <td>2.19</td>
+                                <td>2.86</td>
+                                <td>3.28</td>
+                            </tr>
+                            <tr>
+                                <td>Ours (Supervised)</td>
+                                <td><strong>1.14</strong></td>
+                                <td><strong>0.85</strong></td>
+                                <td><strong>1.40</strong></td>
+                                <td><strong>1.16</strong></td>
+                                <td><strong>1.50</strong></td>
+                                <td><strong>1.37</strong></td>
+                                <td><strong>1.79</strong></td>
+                                <td><strong>1.67</strong></td>
+                                <td><strong>0.84</strong></td>
+                                <td><strong>0.74</strong></td>
+                                <td><strong>1.09</strong></td>
+                                <td><strong>1.11</strong></td>
+                                <td><strong>1.39</strong></td>
+                                <td><strong>1.48</strong></td>
+                                <td><strong>1.92</strong></td>
+                                <td><strong>2.32</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Ours (Unsupervised)</td>
+                                <td>1.45</td>
+                                <td>1.35</td>
+                                <td>1.82</td>
+                                <td>1.92</td>
+                                <td>2.07</td>
+                                <td>2.22</td>
+                                <td>2.32</td>
+                                <td>2.71</td>
+                                <td>1.14</td>
+                                <td>1.23</td>
+                                <td>1.65</td>
+                                <td>2.14</td>
+                                <td>1.89</td>
+                                <td>2.59</td>
+                                <td>2.22</td>
+                                <td>3.21</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <hr />
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <h2 class="center">Citation</h2>
+                    <p>
+                        Please consider citing our paper if find this work helpful:
+                        <pre><code>@inproceedings{luo2020differentiable,
+    title={Differentiable Manifold Reconstruction for Point Cloud Denoising},
+    author={Luo, Shitong and Hu, Wei},
+    booktitle={Proceedings of the 28th ACM International Conference on Multimedia},
+    year={2020},
+    month={October}
+}</code></pre>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main><!-- /.container -->
+</body>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139139576-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139139576-1');
+</script>
+</html>
