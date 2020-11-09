@@ -51,7 +51,7 @@ conda install -y pytorch=1.5.1 torchvision=0.6.1 cudatoolkit=9.2 -c pytorch
 conda install -y scikit-learn=0.23.1
 conda install -y -c conda-forge h5py=2.10.0 pytorch-lightning=0.7.6
 # Compile the EMD operator
-# [NOTICE] This steps requires CUDA NVCC compiler
+# [NOTICE] This step requires CUDA NVCC compiler
 cd ./ops/emd; python setup.py install; cd ../../
 ```
 
