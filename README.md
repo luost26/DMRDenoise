@@ -6,6 +6,9 @@
 
 This is an implementation of the DMRDenoise model based on our paper "Differentiable Manifold Reconstruction for Point Cloud Denoising", which will appear in ACM MM 2020.
 
+## :loudspeaker: News
+
+- **[Aug 15, 2021]** Please check out our latest work on point cloud denoising: *Score-Based Point Cloud Denoising* (ICCV 2021) [[Paper](https://arxiv.org/abs/2107.10981)] [[Code](https://github.com/luost26/score-denoise)].
 
 
 ## Installation
